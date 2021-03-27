@@ -1,0 +1,26 @@
+body {
+    background-image: url("assets/images/backgroundTile.jpg");
+}
+
+.new-note {
+    background-image: url("assets/images/new-sticky-note.png");
+    background-repeat: no-repeat;
+    background-size:inherit;
+}
+
+.note {
+    background-image: url("assets/images/sticky-note.png");
+    
+    width: 300px;
+    min-height: 300px;
+}
+
+.input {
+    background-color: transparent;
+}
+
+.form-container {
+    width: 500px;
+    height: 600px;
+    margin: auto;
+}
