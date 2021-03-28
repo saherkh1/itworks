@@ -2,15 +2,53 @@ body {
     background-image: url("assets/images/backgroundTile.jpg");
 }
 
-.new-note {
-    background-image: url("assets/images/new-sticky-note.png");
-    background-repeat: no-repeat;
-    background-size:inherit;
+.time-date-div{
+    /* display: inline-block; */
+    /* margin: 0;     */
 }
 
+.new-task {
+    background-image: url("assets/images/new-sticky-note.png");
+    background-repeat: no-repeat;
+    background-size: inherit;
+}
+
+.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+}
+#add-task {
+    margin: 2px;
+    position: absolute;
+    bottom: 10%;
+    right: 10%;
+}
+
+#clear-form {
+    margin: 2px;
+    position: absolute;
+    bottom: 10%;
+    right: 30%;
+}
+#input-task{
+    height: 230px;
+    resize: none;
+}
+#myForm {
+    width: 512px;
+    height: 512px;
+    padding: 40px;
+    position: relative;
+    
+}
+#taskList{
+    display: inline-block;
+
+}
 .note {
     background-image: url("assets/images/sticky-note.png");
-    
     width: 300px;
     min-height: 300px;
 }
@@ -24,3 +62,80 @@ body {
     height: 600px;
     margin: auto;
 }
+
+/* .list-group {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 1em;
+} */
+.list-item-div{
+    height: 450px;
+    margin-top: 10px;
+    position: relative;
+}
+.list-item-div:hover > button{
+    visibility: visible;
+}
+
+.list-item {
+    height: 510px;
+    width: 500px;
+    background: transparent;
+    background-image: url("/assets/images/sticky-note.png");
+    background-repeat: no-repeat;
+    position: relative;
+    padding: 1em;
+    text-align: center;
+    display: inline-block;
+}
+.task-view{
+    display: block;
+}
+.task-view-btn{
+    color: black;
+    position: absolute;
+    right: 0;
+    visibility: hidden;
+}
+.task-view-info{
+    width: 400px;
+    height: 400px;
+    border: none;
+    background-color: transparent;
+    resize: none;
+}
+.task-view-date{
+    border: none;
+    border-top: 1px solid black;
+    background-color: transparent;
+    width: 200px;
+    height: 40px;
+
+}
+
+
+@font-face {
+    font-family: "Glyphicons Halflings";
+    src: url("/assets/fonts/glyphicons-halflings-regular.eot");
+    src: url("/assets/fonts/glyphicons-halflings-regular.eot?#iefix")
+        format("embedded-opentype"),
+      url("/assets/fonts/glyphicons-halflings-regular.woff2") format("woff2"),
+      url("/assets/fonts/glyphicons-halflings-regular.woff") format("woff"),
+      url("/assets/fonts/glyphicons-halflings-regular.ttf") format("truetype"),
+      url("/assets/fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular")
+        format("svg");
+  }
+  .glyphicon {
+    position: relative;
+    top: 1px;
+    display: inline-block;
+    font-family: "Glyphicons Halflings";
+    font-style: normal;
+    font-weight: 400;
+    color: #000000;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  

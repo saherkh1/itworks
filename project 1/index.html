@@ -7,30 +7,48 @@
     <title>To-Do</title>
     <script src="main.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+        integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
     <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
-    <div class="new-note form-container">
-    <form id="myForm">
-        <div class="new-note mb-3">
-          <label for="task-info" class="inputform-task-info">task</label>
-          <input name="task-info" type="text" class="input form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+    <div class="container-fluid">
+        <div class="row">
+            <img src="assets/images/title.png" alt="title" class="center">
         </div>
-        <div class="mb-3">
-          <label for="time" class="form-label">Target Time To finish</label>
-          <input name="target-time" type="time" class="input form-control" id="exampleInputPassword1">
+        <div class="row-5">
+            <div class=" form-container">
+                <form id="myForm" class="new-task">
+                    <div class="">
+                        <label for="taskInfo" class="inputform-task-info">task</label>
+                        <textarea id="input-task" name="taskInfo" type="text" class="input form-control"> </textarea>
+                    </div>
+                    <div class="row">
+                        <div class="col time-date-div">
+                            <label for="targetDate">Target Time To finish</label>
+                        </div>
+                        <div class="col time-date-div">
+                            <label for="targetTime">Target Time To finish</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col time-date-div">
+                            <input name="targetDate" type="date" class="input form-control" />
+                        </div>
+                            <div class="col time-date-div">
+                                <input name="targetTime" type="time" class="input form-control" />
+                            </div>
+                    </div>
+                    <button id="add-task" type="Add" class="btn btn-primary" onclick="save(event);load()"><span
+                            class="glyphicon glyphicon-plus"></span></button>
+                    <button id="clear-form" type="reset" class="btn btn-primary" onclick=clean();load()>clean</button>
+                </form>
+            </div>
         </div>
-        <button type="Add" class="btn btn-primary" onclick=save()>Submit</button>
-      </form>
+        <div class="container-fluid d-flex justify-content-center ">
+            <ul id="taskList" class=" justify-content-center"></ul>
+        </div>
     </div>
-    <ul class="list-group">
-        <li class="list-group-item">Dapibus ac facilisis in</li>
-        <li class="list-group-item list-group-item-primary">This is a primary list group item</li>
-        <li class="list-group-item list-group-item-secondary">This is a secondary list group item</li>
-        <li class="list-group-item list-group-item-success">This is a success list group item</li>
-      </ul>
 </body>
 
 </html>

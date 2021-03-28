@@ -1,57 +1,103 @@
-function save() {
-    
-    const newNoteForm = document.getElementById("myForm");
-    const newTask ={
-        
+function save(event) {
+    try {
+        event.preventDefault();
+        const myForm = document.getElementById("myForm");
+        const text = myForm.taskInfo.value;
+        const date = myForm.targetDate.value;
+        const time = myForm.targetTime.value;
+        const fullDateTime = new Date(date + " " + time);
+        if (text == "" || text == " ")
+            throw new Error(text + " not valid, text box must not be empty");
+        if (fullDateTime < new Date().getTime())
+            throw new Error(time + " not valid, date and time must not be in the past or empty");
+        const newTask = {
+            taskInfo: text,
+            targetTime: fullDateTime,
+            timeStamp: new Date().getTime()
+        }
+        const id = (new Date().getTime()).toString() + "R" + (Math.floor(Math.random() * 10000)).toString()
+            + newTask.taskInfo.replace(/(\r\n|\n|\r)/gm, "") + newTask.targetTime;
+        localStorage.setItem(id, JSON.stringify(newTask));
+    } catch (err) {
+        alert("Error: " + err.message);
+
     }
-    localStorage.setItem("taskInfo", myForm.target-time.value);
-    localStorage.setItem("targetTime", myForm.task-info.value);
 }
 function load() {
-    const myForm = document.getElementById("myForm");
-    myForm.target-time.value = localStorage.getItem("taskInfo");
-    myForm.task-info.value = localStorage.getItem("targetTime");
-}
-function removeTaskFromList(id) {
-    localStorage.removeItem(id);
-    document.getElementById(id).remove();
-}
-function addNote(event) {
-
-    event.preventDefault();
-
-    const noteForm = document.getElementById("myForm");
-    let newNote = document.getElementById("content-add").value;
-    let date = document.getElementById("date-input").value;
-    let time = document.getElementById("time-input").value;
-    let fullDate = Date.parse(date + " " + time);
-    //Validation
-    if (newNote === "") {
-        alert("Please enter your task details!");
-    } else if (fullDate < new Date().getTime()) {
-        alert("Please enter correct date !");
-
-    } else if (fullDate === null) {
-        alert("The date is empty!");
-    } else if (newNote != "" && fullDate >= new Date().getTime() && fullDate != null) {
-        localStorage.setItem(
-            counter,
-            JSON.stringify({ date: fullDate, title: newNote.toString() })
-        );
-        document.getElementById(
-            "list"
-        ).innerHTML += `<li id=${counter}><div class="item-div">${JSON.parse(localStorage.getItem(counter)).title
-        } </div><input class="input-date" type="text" disabled value=${new Date(
-            JSON.parse(localStorage.getItem(counter)).date
-        ).toLocaleDateString() +
-        "-" +
-        new Date(JSON.parse(localStorage.getItem(counter)).date).toTimeString()
-            }> <button id=${counter} type="button" class="btn btn-warning btn-add btn-place" onclick="removeItemFromUnOrderList(this.id)"}>
-                <span class="add-note">X</span>
-            </button></li>`;
-        document.getElementById("content-add").value = ``;
-
-
-        counter++;
+    const taskList = document.getElementById("taskList");
+    taskList.innerHTML = "";
+    const orderList = [];
+    for (let taskKey in localStorage) {
+        let obj = localStorage.getItem(taskKey);
+        if (obj !== null) {
+            orderList.push(taskKey);
+        }
+    }
+    orderList.sort((a,b)=> {
+        let timeStampEndA = a.indexOf("R");
+        let timeStampEndB = b.indexOf("R");
+        let aCopy = a.substring(0,timeStampEndA);
+        let bCopy = b.substring(0,timeStampEndB);
+        return aCopy - bCopy;
+    });
+console.log(orderList);
+    for (const taskKey in orderList) {
+        let obj = localStorage.getItem(orderList[taskKey]);
+        if (obj !== null) {
+            let newLi = createListItemView(JSON.parse(obj), taskKey);
+            taskList.appendChild(newLi);
+        }
     }
 }
+function clean() {
+    localStorage.clear();
+}
+function removeTaskFromList(event) {
+    console.log(event);
+    const clickedButtonId = event.srcElement.id;
+    const clickedObject = JSON.parse(localStorage[clickedButtonId]);
+    localStorage.removeItem(clickedButtonId);
+}
+function createListItemView(taskObject, key) {
+    let li = document.createElement("li");
+    let newTaskView = createTaskView(taskObject, key);
+    li.appendChild(newTaskView);
+    li.className = "p-5 list-item";
+    return li;
+}
+function createTaskView(taskObject, key) {
+
+    let newTaskDiv = document.createElement("div");
+    let newButton = creatDoneBtn(key);
+    let newInputInfo = document.createElement("textarea");
+    let newInputDate = document.createElement("input");
+    newTaskDiv.className = "list-item-div ";
+    newInputInfo.className = "task-view task-view-info ";
+    newInputInfo.disabled = true;
+    newInputInfo.value = taskObject.taskInfo;
+    newInputDate.className = "task-view task-view-date";
+    newInputDate.disabled = true;
+    const date = new Date(taskObject.targetTime).toLocaleDateString();
+    const time = new Date(taskObject.targetTime).toLocaleTimeString();
+    newInputDate.value = date + "  " + time;
+    newTaskDiv.appendChild(newButton);
+    newTaskDiv.appendChild(newInputInfo);
+    newTaskDiv.appendChild(newInputDate);
+    return newTaskDiv;
+}
+function creatDoneBtn(key) {
+    let removeButton = document.createElement("button");
+    const spanImage = document.createElement("span");
+    spanImage.className = "glyphicon glyphicon-remove";
+    spanImage.id = key;
+    removeButton.className = "task-view task-view-btn btn  ";
+    console.log(key)
+    removeButton.onclick = removeTaskFromList;
+    removeButton.addEventListener("click", load);
+    removeButton.appendChild(spanImage);
+    return removeButton;
+}
+
+
+document.addEventListener("DOMContentLoaded", load);
+
