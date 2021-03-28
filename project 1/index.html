@@ -14,14 +14,14 @@
 <body>
     <div class="container-fluid">
         <div class="row justify-content-center">
-            <img src="assets/images/title.png" alt="title" class="center">
+            <h1 id="tasksTitle"></h1>
         </div>
         <div class="row-5">
             <div class=" form-container">
                 <form id="myForm" class="new-task">
                     <div class="">
                         <label for="taskInfo" class="inputform-task-info">task</label>
-                        <textarea id="input-task" name="taskInfo" type="text" class="input form-control"> </textarea>
+                        <textarea id="inputTask" name="taskInfo" type="text" class="input form-control"> </textarea>
                     </div>
                     <div class="row">
                         <div class="col time-date-div">
@@ -39,10 +39,10 @@
                                 <input name="targetTime" type="time" class="input form-control" />
                             </div>
                     </div>
-                    <button id="clear-form" type="reset" class="btn btn-primary">
+                    <button id="clearForm" type="reset" class="btn btn-primary">
                         <span class="glyphicon glyphicon-remove" >
                         </span></button>
-                    <button id="add-task" type="Add" class="btn btn-primary" onclick="save(event);load()">
+                    <button id="addTask" type="Add" class="btn btn-primary" onclick="save(event);load()">
                         <span class="glyphicon glyphicon-plus"></span>
                     </button>
                 </form>

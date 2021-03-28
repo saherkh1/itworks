@@ -2,11 +2,6 @@ body {
   background-image: url("assets/images/backgroundTile.jpg");
 }
 
-.time-date-div {
-  /* display: inline-block; */
-  /* margin: 0;     */
-}
-
 .new-task {
   background-image: url("assets/images/new-sticky-note.png");
   background-repeat: no-repeat;
@@ -17,20 +12,31 @@ body {
   
   width: 50%;
 }
-#add-task {
+@font-face {
+    src: url("assets/fonts/Sriracha-Regular.ttf");
+    font-family: titleFont;
+}
+#tasksTitle {
+    margin-left: auto;
+    margin-right: auto;
+    font-weight: bold;
+    font-size: 56px;
+    font-family: titleFont, 'Tillana', cursive;
+}
+#addTask {
   margin: 2px;
   position: absolute;
   bottom: 10%;
   right: 10%;
 }
 
-#clear-form {
+#clearForm {
   margin: 2px;
   position: absolute;
   bottom: 10%;
   right: 30%;
 }
-#input-task {
+#inputTask {
   height: 230px;
   resize: none;
 }
