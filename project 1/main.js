@@ -62,7 +62,7 @@ function createListItemView(taskObject, key) {
     let li = document.createElement("li");
     let newTaskView = createTaskView(taskObject, key);
     li.appendChild(newTaskView);
-    li.className = "p-5 list-item";
+    li.className = "list-item";
     return li;
 }
 function createTaskView(taskObject, key) {

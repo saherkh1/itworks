@@ -13,7 +13,7 @@
 
 <body>
     <div class="container-fluid">
-        <div class="row">
+        <div class="row justify-content-center">
             <img src="assets/images/title.png" alt="title" class="center">
         </div>
         <div class="row-5">
@@ -39,15 +39,23 @@
                                 <input name="targetTime" type="time" class="input form-control" />
                             </div>
                     </div>
-                    <button id="add-task" type="Add" class="btn btn-primary" onclick="save(event);load()"><span
-                            class="glyphicon glyphicon-plus"></span></button>
-                    <button id="clear-form" type="reset" class="btn btn-primary" onclick=clean();load()>clean</button>
+                    <button id="clear-form" type="reset" class="btn btn-primary">
+                        <span class="glyphicon glyphicon-remove" >
+                        </span></button>
+                    <button id="add-task" type="Add" class="btn btn-primary" onclick="save(event);load()">
+                        <span class="glyphicon glyphicon-plus"></span>
+                    </button>
                 </form>
             </div>
         </div>
-        <div class="container-fluid d-flex justify-content-center ">
-            <ul id="taskList" class=" justify-content-center"></ul>
+        <div class="row d-flex justify-content-center">
+        <div class="col">
+            <ul id="taskList">
+
+
+            </ul>
         </div>
+    </div>
     </div>
 </body>
 
