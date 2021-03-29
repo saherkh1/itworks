@@ -28,13 +28,12 @@ function save(event) {
         }
         const newTask = {
             taskInfo: text,
-            targetTime: fullDateTime,
-            timeStamp: new Date().getTime()
+            targetTime: fullDateTime
         }
         const id = (new Date().getTime()).toString() + "R"
-            + (Math.floor(Math.random() * 10000)).toString()
-            + newTask.taskInfo.replace(/(\r\n|\n|\r)/gm, "") + newTask.targetTime;
+            + (Math.floor(Math.random() * 10000)).toString();
         localStorage.setItem(id, JSON.stringify(newTask));
+        myForm.reset();
     } catch (err) {
         alert("Error: " + err.message);
     }
@@ -73,14 +72,15 @@ function printDataToScreen(orderList) {
 }
 function filterTasksAndStorage() {
     let array = getKeysFromLocalStorage();
-    let filteredList = array.filter((value/*, index, arr*/) => {
+    let filteredList = array.filter((value) => {
         const localData = JSON.parse(localStorage.getItem(value));
         const today = new Date();
         if (value !== undefined && localData !== undefined) {
-            let fullDateTime = new Date(localData.targetTime);
+            const fullDateTime = new Date(localData.targetTime);
+            const milliseconds = fullDateTime.getTime();
             const isToday = isItToday(fullDateTime);
-            return (fullDateTime.getTime() > today.getTime() ||
-                isToday);
+            return  (fullDateTime.toLocaleTimeString() === "00:00:00" && isToday)
+                    || (milliseconds > today.getTime());
         } else {
             console.log(value + " Local Storage data is not compatible");
         }
@@ -123,7 +123,7 @@ function createTaskView(taskObject, key) {
 
     newInputDate.className = "task-view task-view-date";
     newInputDate.disabled = true;
-    newInputDate.value = date + "  " + time;
+    newInputDate.value = (time === "00:00:00") ? date : date + "  " + time ;
 
     newTaskDiv.className = "list-item-div fade-in";
     newTaskDiv.appendChild(creatDoneBtn(key));
