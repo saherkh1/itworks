@@ -14,18 +14,18 @@ function save(event) {
         const time = myForm.targetTime.value;
         const fullDateTime = new Date(date + " " + time);
         const isToday = isItToday(fullDateTime);
-        // if (text.trim() == "") {
-        //     throw new Error("Text box must not be empty" + text);
-        // }
-        // if (date === "" && time === "") {
-        //     throw new Error("Date must not be in the past or empty");
-        // }
-        // else if ((!isToday) && fullDateTime < new Date().getTime()) {
-        //     throw new Error(fullDateTime + " Not valid, date must not be in the past or empty");
-        // }
-        // if (time !== "" && fullDateTime < new Date().getTime()) {
-        //     throw new Error(fullDateTime + " Not valid, date must not be in the past");
-        // }
+        if (text.trim() == "") {
+            throw new Error("Text box must not be empty" + text);
+        }
+        if (date === "" && time === "") {
+            throw new Error("Date must not be in the past or empty");
+        }
+        else if ((!isToday) && fullDateTime < new Date().getTime()) {
+            throw new Error(fullDateTime + " Not valid, date must not be in the past or empty");
+        }
+        if (time !== "" && fullDateTime < new Date().getTime()) {
+            throw new Error(fullDateTime + " Not valid, date must not be in the past");
+        }
         const newTask = {
             taskInfo: text,
             targetTime: fullDateTime,
