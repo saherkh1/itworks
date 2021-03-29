@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,7 +10,6 @@
         integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
     <link rel="stylesheet" href="styles.css">
 </head>
-
 <body>
     <div class="container-fluid">
         <div class="row ">
@@ -24,7 +22,7 @@
                 <form id="myForm" class="new-task">
                     <div class="">
                         <label for="taskInfo" class="inputform-task-info">task</label>
-                        <textarea id="inputTask" name="taskInfo" type="text" class="input form-control"> </textarea>
+                        <textarea id="inputTask" name="taskInfo" type="text" class="transparent-bg form-control"> </textarea>
                     </div>
                     <div class="row">
                         <div class="col time-date-div">
@@ -36,15 +34,15 @@
                     </div>
                     <div class="row">
                         <div class="col time-date-div">
-                            <input name="targetDate" type="date" class="input form-control" />
+                            <input name="targetDate" type="date" class="transparent-bg form-control" />
                         </div>
                         <div class="col time-date-div">
-                            <input name="targetTime" type="time" class="input form-control" />
+                            <input name="targetTime" type="time" class="transparent-bg form-control" />
                         </div>
                     </div>
                     <button id="clearForm" type="reset" class="btn btn-primary">
-                        <span class="glyphicon glyphicon-remove">
-                        </span></button>
+                        <span class="glyphicon glyphicon-remove"></span>
+                    </button>
                     <button id="addTask" type="Add" class="btn btn-primary" onclick="save(event);load()">
                         <span class="glyphicon glyphicon-plus"></span>
                     </button>
@@ -53,10 +51,7 @@
         </div>
         <div class="row d-flex justify-content-center">
             <div class="col">
-                <ul id="taskList">
-
-
-                </ul>
+                <ul id="taskList"></ul>
             </div>
         </div>
     </div>

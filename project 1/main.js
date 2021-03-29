@@ -37,10 +37,9 @@ function save(event) {
         localStorage.setItem(id, JSON.stringify(newTask));
     } catch (err) {
         alert("Error: " + err.message);
-
     }
 }
-function getKeysFromLocalStorage(){
+function getKeysFromLocalStorage() {
     let orderList = [];
     for (let taskKey in localStorage) {
         if (localStorage.getItem(taskKey) !== null) {
@@ -57,10 +56,10 @@ function sortList(list) {
         let bTimeStamp = b.substring(0, timeStampEndB);
         return aTimeStamp - bTimeStamp;
     });
-    
+
     return list;
 }
-function printDataToScreen(orderList){
+function printDataToScreen(orderList) {
     const taskList = document.getElementById("taskList");
     taskList.innerHTML = "";
     for (const Key in orderList) {
@@ -72,21 +71,19 @@ function printDataToScreen(orderList){
         }
     }
 }
-
 function filterTasksAndStorage() {
     let array = getKeysFromLocalStorage();
     let filteredList = array.filter((value/*, index, arr*/) => {
         const localData = JSON.parse(localStorage.getItem(value));
-        if (value === undefined || localData === undefined) {
-            console.log("Local Storage data is not compatible");
-        }
-        let fullDateTime = new Date(localData.targetTime);
-        const isToday = isItToday(fullDateTime);
         const today = new Date();
-        //logTheDay(fullDateTime);
-        console.log(fullDateTime.getTime() + " is today " + isToday + " and in the future " + (fullDateTime.getTime() > today.getTime()))
-        return (fullDateTime.getTime() > today.getTime() ||
-            isToday);
+        if (value !== undefined && localData !== undefined) {
+            let fullDateTime = new Date(localData.targetTime);
+            const isToday = isItToday(fullDateTime);
+            return (fullDateTime.getTime() > today.getTime() ||
+                isToday);
+        } else {
+            console.log(value + " Local Storage data is not compatible");
+        }
     });
 
     const finalList = array.filter((value) => {
@@ -98,14 +95,12 @@ function filterTasksAndStorage() {
     });
     load();
 }
-
 function isItToday(someDate) {
-    const today = new Date()
+    const today = new Date();
     return someDate.getDate() === today.getDate() &&
         someDate.getMonth() === today.getMonth() &&
         someDate.getFullYear() === today.getFullYear();
 }
-
 function createListItemView(taskObject, key) {
     const li = document.createElement("li");
     const newTaskView = createTaskView(taskObject, key);
@@ -115,35 +110,31 @@ function createListItemView(taskObject, key) {
 
     return li;
 }
-
 function createTaskView(taskObject, key) {
+    const date = new Date(taskObject.targetTime).toLocaleDateString();
+    const time = new Date(taskObject.targetTime).toLocaleTimeString();
     let newTaskDiv = document.createElement("div");
-    let newButton = creatDoneBtn(key);
     let newInputInfo = document.createElement("textarea");
     let newInputDate = document.createElement("input");
 
-    newTaskDiv.className = "list-item-div fade-in";
     newInputInfo.className = "task-view task-view-info ";
     newInputInfo.disabled = true;
     newInputInfo.value = taskObject.taskInfo;
+
     newInputDate.className = "task-view task-view-date";
     newInputDate.disabled = true;
-
-    const date = new Date(taskObject.targetTime).toLocaleDateString();
-    const time = new Date(taskObject.targetTime).toLocaleTimeString();
-
     newInputDate.value = date + "  " + time;
-    newTaskDiv.appendChild(newButton);
+
+    newTaskDiv.className = "list-item-div fade-in";
+    newTaskDiv.appendChild(creatDoneBtn(key));
     newTaskDiv.appendChild(newInputInfo);
     newTaskDiv.appendChild(newInputDate);
 
     return newTaskDiv;
 }
-
 function creatDoneBtn(key) {
     const removeButton = document.createElement("button");
     const spanImage = document.createElement("span");
-
     spanImage.className = "glyphicon glyphicon-remove";
     spanImage.id = key;
     removeButton.className = "task-view task-view-btn btn  ";
@@ -153,6 +144,5 @@ function creatDoneBtn(key) {
 
     return removeButton;
 }
-
 document.addEventListener("DOMContentLoaded", filterTasksAndStorage);
 
