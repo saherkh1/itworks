@@ -1,3 +1,9 @@
+function load() {
+    printDataToScreen(sortList(getKeysFromLocalStorage()));
+}
+function removeTaskFromList(event) {
+    localStorage.removeItem(event.srcElement.id);
+}
 function save(event) {
     try {
         event.preventDefault();
@@ -7,13 +13,19 @@ function save(event) {
         const date = myForm.targetDate.value;
         const time = myForm.targetTime.value;
         const fullDateTime = new Date(date + " " + time);
-
-        if (text == "" || text == " ") {
-            throw new Error(text + " not valid, text box must not be empty");
-        }
-        if (fullDateTime < new Date().getTime()) {
-            throw new Error(fullDateTime + " not valid, date and time must not be in the past or empty");
-        }
+        const isToday = isItToday(fullDateTime);
+        // if (text.trim() == "") {
+        //     throw new Error("Text box must not be empty" + text);
+        // }
+        // if (date === "" && time === "") {
+        //     throw new Error("Date must not be in the past or empty");
+        // }
+        // else if ((!isToday) && fullDateTime < new Date().getTime()) {
+        //     throw new Error(fullDateTime + " Not valid, date must not be in the past or empty");
+        // }
+        // if (time !== "" && fullDateTime < new Date().getTime()) {
+        //     throw new Error(fullDateTime + " Not valid, date must not be in the past");
+        // }
         const newTask = {
             taskInfo: text,
             targetTime: fullDateTime,
@@ -28,24 +40,29 @@ function save(event) {
 
     }
 }
-function load() {
-    const taskList = document.getElementById("taskList");
-    const orderList = [];
-
-    taskList.innerHTML = "";
+function getKeysFromLocalStorage(){
+    let orderList = [];
     for (let taskKey in localStorage) {
-        const obj = localStorage.getItem(taskKey);
-        if (obj !== null) {
+        if (localStorage.getItem(taskKey) !== null) {
             orderList.push(taskKey);
         }
     }
-    orderList.sort((a, b) => {
+    return orderList;
+}
+function sortList(list) {
+    list.sort((a, b) => {
         let timeStampEndA = a.indexOf("R");
         let timeStampEndB = b.indexOf("R");
-        let aCopy = a.substring(0, timeStampEndA);
-        let bCopy = b.substring(0, timeStampEndB);
-        return aCopy - bCopy;
+        let aTimeStamp = a.substring(0, timeStampEndA);
+        let bTimeStamp = b.substring(0, timeStampEndB);
+        return aTimeStamp - bTimeStamp;
     });
+    
+    return list;
+}
+function printDataToScreen(orderList){
+    const taskList = document.getElementById("taskList");
+    taskList.innerHTML = "";
     for (const Key in orderList) {
         const taskKey = orderList[Key];
         const obj = localStorage.getItem(taskKey);
@@ -56,11 +73,37 @@ function load() {
     }
 }
 
-function removeTaskFromList(event) {
-    const clickedButtonId = event.srcElement.id;
-    const clickedObject = JSON.parse(localStorage[clickedButtonId]);
+function filterTasksAndStorage() {
+    let array = getKeysFromLocalStorage();
+    let filteredList = array.filter((value/*, index, arr*/) => {
+        const localData = JSON.parse(localStorage.getItem(value));
+        if (value === undefined || localData === undefined) {
+            console.log("Local Storage data is not compatible");
+        }
+        let fullDateTime = new Date(localData.targetTime);
+        const isToday = isItToday(fullDateTime);
+        const today = new Date();
+        //logTheDay(fullDateTime);
+        console.log(fullDateTime.getTime() + " is today " + isToday + " and in the future " + (fullDateTime.getTime() > today.getTime()))
+        return (fullDateTime.getTime() > today.getTime() ||
+            isToday);
+    });
 
-    localStorage.removeItem(clickedButtonId);
+    const finalList = array.filter((value) => {
+        const keepThisItem = filteredList.includes(value);
+        if (!keepThisItem) {
+            localStorage.removeItem(value);
+        }
+        return keepThisItem;
+    });
+    load();
+}
+
+function isItToday(someDate) {
+    const today = new Date()
+    return someDate.getDate() === today.getDate() &&
+        someDate.getMonth() === today.getMonth() &&
+        someDate.getFullYear() === today.getFullYear();
 }
 
 function createListItemView(taskObject, key) {
@@ -68,7 +111,7 @@ function createListItemView(taskObject, key) {
     const newTaskView = createTaskView(taskObject, key);
 
     li.appendChild(newTaskView);
-    li.className = "list-item";
+    li.className = "fade-in list-item";
 
     return li;
 }
@@ -111,5 +154,5 @@ function creatDoneBtn(key) {
     return removeButton;
 }
 
-document.addEventListener("DOMContentLoaded", load);
+document.addEventListener("DOMContentLoaded", filterTasksAndStorage);
 
